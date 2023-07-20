@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link th:href="@{/css/style.css}" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <title>Product</title>
+
+  <style>
+    a:hover{
+      color: #a4cbe3 !important;
+    }
+    a {
+      color: white !important;
+    }
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-btn {
+
+      color: white;
+      padding: 8px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      display: none;
+    }
+
+    .dropdown-menu ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 8px;
+      text-decoration: none;
+      color: white;
+    }
+
+    /*.dropdown-menu a:hover {*/
+    /*    background-color: #f5f5f5;*/
+    /*}*/
+    .no-background {
+      background: none;
+    }
+    .dropdown-btn:hover{
+      color: #a4cbe3;
+    }
+
+  </style>
+
+</head>
+<body>
+<div class="header">
+  <div class="container">
+    <!--logo menu-->
+    <div class="navbar">
+
+      <div class="logo">
+        <img th:src="@{/img/logo-one.png}" width="125px">
+      </div>
+      <nav>
+        <ul id="MenuItems">
+
+
+
+          <li><a href="/">Home</a></li>
+          <li><a href="product">Products</a></li>
+          <li><a href="dashboards">About</a></li>
+          <li><a href="">Contact</a></li>
+          <li th:if="${session.userLogin}">
+            <div class="dropdown">
+              <button class="dropdown-btn  no-background" th:text="${session.userLogin.getUserName()}"></button>
+              <div class="dropdown-menu">
+                <ul>
+                  <li><a href="logout">Logout</a></li>
+
+                </ul>
+              </div>
+            </div>
+
+
+
+          <li th:unless="${session.userLogin}"><a href="formLogin">Account</a></li>
+
+
+        </ul>
+      </nav>
+      <div th:if="${session.userLogin}">
+        <a href="cart">
+          <img th:src="@{/img/cart.png}" width="25px" height="25px">
+        </a>
+      </div>
+    </div>
+    <!--End logo and menu-->
+    <!--Banner-->
+    <div class="row">
+
+      <div class="col-2">
+        <h1>Give Your Exercise <br>A New Model</h1>
+        <p>Your goal is to be bestter than yesterday. You are your greatest competition.
+          <br>All you need is to know what your goal is and be consistent everyday in achieving it!
+        </p>
+        <a href="" class="btn">Explore Now &#10132;</a>
+      </div>
+      <div class="col-2">
+        <img th:src="@{/img/all-sports-banner.png}" alt="">
+      </div>
+
+    </div>
+    <!--end banner-->
+  </div>
+</div>
+<div class="small-container">
+  <h2 class="title">List Product</h2>
+  <div class="row">
+    <th:block th:each="pro : ${listPro}">
+    <div class="col-4">
+      <img style="width: 250px;height: 300px" th:src="@{'/img/'+${pro.Img}}" alt="">
+      <h4 th:text="${pro.productName}"></h4>
+      <p style="color: red" th:text="${pro.price + ' $'}"></p>
+      <div >
+        <button style="border: 1px #5d5555 solid;background-color: #c56353;width: 80px;height: 35px;border-radius: 5px;" type="button" >
+          <a th:href="${session.userLogin==null}?'formLogin':'addToCart/'+${pro.getPid()}">Buy Now</a></button>
+
+<!--        <button class="btn btn-info" style="width: 80px; height: 40px;border-radius: 10px"><a class="text-dark" th:href="${session.userLogin==null}?'formLogin':'addToCart/'+${pro.productId}">AddToCart</a></button>-->
+
+      </div>
+    </div>
+    </th:block>
+  </div>
+</div>
+
+
+</body>
+</html>
